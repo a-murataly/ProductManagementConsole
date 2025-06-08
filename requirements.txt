@@ -1,5 +1,24 @@
-fastapi
-uvicorn
-sqlalchemy
-psycopg2-binary
-python-dotenv
+#Here are all libraries that are used in this porject, localized only for the project's environment
+
+
+
+#Main libraries of the project
+fastapi==0.115.12
+uvicorn==0.34.3
+gunicorn==23.0.0
+
+#FastAPI dependencies
+pydantic==2.11.5
+starlette==0.46.2
+
+#Additional dependencies
+annotated-types==0.7.0
+anyio==4.9.0
+click==8.2.1
+h11==0.16.0
+idna==3.10
+packaging==25.0
+pydantic_core==2.33.2
+sniffio==1.3.1
+typing-inspection==0.4.1
+typing_extensions==4.14.0

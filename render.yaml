@@ -1,0 +1,7 @@
+services:
+- type: web
+  name: product_management_console
+  env: python
+  plan: free
+  buildCommand: ""
+  startCommand: gunicorn -k uvicorn.workers.UvicornWorker app.main:app
