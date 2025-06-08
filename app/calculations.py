@@ -1,7 +1,7 @@
 def category_share(product_sales: float, category_sales: float) -> float:
     return round(product_sales/category_sales, 3)
 
-category_share = {
+calculations = {
     "category_share": {
         "func": category_share,
         "args": ["product_sales", "category_sales"],
