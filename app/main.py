@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from app.dynamic_router import router
+from app.routes import upload_csv
 
 app = FastAPI()
 
-app.include_router(router)
+app.include_router(upload_csv.router)
