@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Scaling Factors Visualizer</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+  <h2>Загрузите CSV-файл</h2>
+  <input type="file" id="fileInput" />
+  <button onclick="upload()">Загрузить</button>
+
+  <div id="result" style="margin-top: 20px;"></div>
+  <div id="chart" style="width: 100%; height: 500px; margin-top: 40px;"></div>
+
+  <script>
+    async function upload() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if (!file) return alert("Сначала выберите файл");
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/upload_csv", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        document.getElementById("result").innerText = "Ошибка: " + data.error;
+        return;
+      }
+
+      // Таблица
+      const html = data["scaling_factors"].map(row => `
+        <div>От: <b>${row.from}</b> → <b>${row.to}</b>, коэффициент: <b>${row.scaling_factor}</b></div>
+      `).join("");
+      document.getElementById("result").innerHTML = html;
+
+      // Чарт
+      const chart = echarts.init(document.getElementById("chart"));
+      chart.setOption({
+        title: { text: "Коэффициенты масштабирования по уровням" },
+        tooltip: {},
+        xAxis: {
+          type: 'category',
+          data: data["scaling_factors"].map(r => `${r.from} → ${r.to}`),
+          axisLabel: { rotate: 45 }
+        },
+        yAxis: { type: 'value' },
+        series: [{
+          type: 'bar',
+          data: data["scaling_factors"].map(r => r.scaling_factor)
+        }]
+      });
+    }
+  </script>
+</body>
+</html>
