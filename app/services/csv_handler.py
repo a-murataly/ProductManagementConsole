@@ -6,7 +6,7 @@ async def read_csv(file: UploadFile):
     contents=await file.read()
     df=pd.read_csv(io.StringIO(contents.decode("utf-8")))
     required_columns=["Date","City","Store","Category","Sub-category","Brand","Item","Sales qty","Sales value","Sales COGS"]
-    if not all(col in df.columnds for col in required_columns):
+    if not all(col in df.columns for col in required_columns):
         missing = list(set(required_columns) - set(df.columns))
         raise ValueError(f"Missing required columns: {', '.join(missing)}")
     return {"rows": df.shape[0], "columns": df.shape[1]}
@@ -15,12 +15,22 @@ def decompose(df):
     levels = ["Date", "City", "Category", "Sub-category", "Brand", "Item"]
     combined_cols = []
 
+    debug_output = []
+
     for i in range(1, len(levels) + 1):
         col_name = "+".join(levels[:i])
-        df[col_name] = df[levels[:i]].astype(str).agg("|".join, axis=1)
+        cols = levels[:i]
+        debug_output.append(f"Processing: {cols}")
+
+        try:
+            df[col_name] = df[cols].astype(str).agg("|".join, axis=1)
+        except Exception as e:
+            raise ValueError(f"Ошибка при склейке {cols}: {e}")
+
         combined_cols.append(col_name)
 
     return df, combined_cols
+
 
 def calculate_scaling_factors(df, combined_cols):
     scaling_factors=[]
