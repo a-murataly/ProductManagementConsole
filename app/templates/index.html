@@ -29,11 +29,12 @@
 
       const data = await response.json();
 
-      if (data.error) {
-        document.getElementById("result").innerText = "Ошибка: " + data.error;
+      if (!response.ok || !data.scaling_factors) {
+        document.getElementById("result").innerText =
+          "Ошибка: " + (data.error || "Нет данных от сервера");
         return;
       }
-
+      
       // Таблица
       const html = data["scaling_factors"].map(row => `
         <div>От: <b>${row.from}</b> → <b>${row.to}</b>, коэффициент: <b>${row.scaling_factor}</b></div>
