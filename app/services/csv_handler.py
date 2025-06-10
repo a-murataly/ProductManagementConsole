@@ -3,15 +3,16 @@ import io
 from fastapi import UploadFile
 
 async def read_csv(file: UploadFile):
-    contents=await file.read()
-    df=pd.read_csv(io.StringIO(contents.decode("utf-8")))
-    df.columns=df.columns.str.strip()
-    required_columns=["Date","City","Store","Category","Sub-category","Brand","Item","Sales qty","Sales value","Sales COGS"]
+    contents = await file.read()
+    df = pd.read_csv(io.StringIO(contents.decode("utf-8")))
+    df.columns = df.columns.str.strip()
+
+    required_columns = ["Date", "City", "Store", "Category", "Sub-category", "Brand", "Item", "Sales qty", "Sales value", "Sales COGS"]
     if not all(col in df.columns for col in required_columns):
         missing = list(set(required_columns) - set(df.columns))
         raise ValueError(f"Missing required columns: {', '.join(missing)}")
     
-    return {"rows": df.shape[0], "columns": df.shape[1]}
+    return df  # <--- ВАЖНО: вернуть DataFrame, а не словарь
 
 def decompose(df):
     levels = ["Date", "City", "Category", "Sub-category", "Brand", "Item"]
