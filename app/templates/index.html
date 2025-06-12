@@ -43,19 +43,35 @@
 
       // Чарт
       const chart = echarts.init(document.getElementById("chart"));
+      const labels = data.filtered_factors.map(r => `${r.from} → ${r.to}`);
+      const filteredData = data.filtered_factors.map(r => r.scaling_factor);
+      const baselineData = data.baseline_factors.map(r => r.scaling_factor);
+
       chart.setOption({
-        title: { text: "Коэффициенты масштабирования по уровням" },
-        tooltip: {},
+        title: { text: "Сравнение с категорией" },
+        tooltip: {trigger: 'axis'},
+        legend: {data: ['Filtered', 'Baseline']},
+        
         xAxis: {
           type: 'category',
-          data: data["filtered_factors"].map(r => `${r.from} → ${r.to}`),
+          data: labels,
           axisLabel: { rotate: 45 }
         },
+        
         yAxis: { type: 'value' },
-        series: [{
-          type: 'bar',
-          data: data["filtered_factors"].map(r => r.scaling_factor)
-        }]
+          series: [
+            {
+              name: 'Filtered',
+              type: 'bar',
+              data: filteredData,
+              barGap: 0
+            },
+            {
+              name: 'Baseline',
+              type: 'bar',
+              data: baselineData
+            }
+          ]
       });
     }
   </script>
