@@ -75,17 +75,17 @@
           ]
       });
     }
+    
     //Селектор
     const brands = ['Brand A', 'Brand B', 'Brand C'];
     const select = document.getElementById("brandSelect");
     
     brands.forEach(brand =>{
-      const option = document.getElement("option");
+      const option = document.createElement("option");
       option.value = brand;
       option.text = brand;
       select.appendChild(option);
     });
-
   </script>
   </body>
 </html>
