@@ -18,6 +18,6 @@ async def upload_csv(file: UploadFile = File(...)):
         return {
             "filtered_factors": filtered,
             "baseline_factors": baseline
-            }
+        }
     except Exception as e:        
         return {"error": str(e)}

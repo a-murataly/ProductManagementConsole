@@ -29,14 +29,14 @@
 
       const data = await response.json();
 
-      if (!response.ok || !data.scaling_factors) {
+      if (!response.ok || !data.filtered_factors) {
         document.getElementById("result").innerText =
           "Ошибка: " + (data.error || "Нет данных от сервера");
         return;
       }
       
       // Таблица
-      const html = data["scaling_factors"].map(row => `
+      const html = data["filtered_factors"].map(row => `
         <div>От: <b>${row.from}</b> → <b>${row.to}</b>, коэффициент: <b>${row.scaling_factor}</b></div>
       `).join("");
       document.getElementById("result").innerHTML = html;
@@ -48,13 +48,13 @@
         tooltip: {},
         xAxis: {
           type: 'category',
-          data: data["scaling_factors"].map(r => `${r.from} → ${r.to}`),
+          data: data["filtered_factors"].map(r => `${r.from} → ${r.to}`),
           axisLabel: { rotate: 45 }
         },
         yAxis: { type: 'value' },
         series: [{
           type: 'bar',
-          data: data["scaling_factors"].map(r => r.scaling_factor)
+          data: data["filtered_factors"].map(r => r.scaling_factor)
         }]
       });
     }
