@@ -72,6 +72,10 @@
       const filteredData_filtered = fltrd_Brand.map(r => r.scaling_factor);
       const baselineData = data.baseline_factors.map(r => r.scaling_factor);
 
+      console.log("Selected brand:", selectedBrand);
+      console.log("Filtered rows:", fltrd_Brand);
+      console.log("Filtered values:", filteredData_filtered);
+
       chart.setOption({
         title: { text: "Сравнение с категорией" },
         tooltip: { trigger: 'axis' },
