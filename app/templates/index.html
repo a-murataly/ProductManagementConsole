@@ -43,6 +43,7 @@
       document.getElementById("result").innerHTML = html;
 
       // Чарт
+      const brands = data.filters["Brand"];
       const chart = echarts.init(document.getElementById("chart"));      
       const fltrd_Brand = data.filtered_factors.filter(r => r.Brand === brands);
       const labels = fltrd_Brand.map(r => `${r.from} → ${r.to}`);
@@ -76,7 +77,7 @@
           ]
       });
       //Селектор
-      const brands = data.filters["Brand"];
+      
       const select = document.getElementById("brandSelect");
 
       select.innerHTML ="";
