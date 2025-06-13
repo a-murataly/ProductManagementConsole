@@ -44,8 +44,9 @@
 
       // Чарт
       const chart = echarts.init(document.getElementById("chart"));
-      const labels = data.filtered_factors.map(r => `${r.from} → ${r.to}`);
-      const filteredData = data.filtered_factors.map(r => r.scaling_factor);
+      const labels = fltrd_Brand.map(r => `${r.from} → ${r.to}`);
+      const fltrd_Brand = data.filtered_factors.filter(r => r.Brand === brands);
+      const filteredData_filtered = fltrd_Brand.map(r => r.scaling_factor);
       const baselineData = data.baseline_factors.map(r => r.scaling_factor);
 
       chart.setOption({
@@ -64,7 +65,7 @@
             {
               name: 'Filtered',
               type: 'bar',
-              data: filteredData,
+              data: filteredData_filtered,
               barGap: 0
             },
             {
