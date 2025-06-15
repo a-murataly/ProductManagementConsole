@@ -57,5 +57,5 @@ def calculate_scaling_factors(df, combined_cols):
 def unique_values(df):
     unique_values={}
     for col in df.columns:
-        unique_values[col]=df[col].unique().tolist()
+        unique_values[col]=dfd[col].unique().tolist()
     return unique_values
